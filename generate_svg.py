@@ -1,9 +1,9 @@
 import svgwrite
 from results import res
 def generate_svg(languages_percentage, output_file="languages.svg"):
-    bar_height = 20
+    bar_height = 28
     width = 800
-    height = bar_height + 130
+    height = bar_height 
     border_radius = 2
 
     dwg = svgwrite.Drawing(output_file, (width, height))
@@ -25,24 +25,29 @@ def generate_svg(languages_percentage, output_file="languages.svg"):
         }
         
         # Name plus color dot
-        label_x = 40
-        dwg.add(dwg.circle(center=(label_x, label_y), r=2, fill=colors[language]))
-        dwg.add(dwg.text(language, insert=(label_x + 8, label_y + 5), font_size="12",font_family="Segoe UI",fill="#FFFFFF"))
-        # Add a language bar with rounded border
+        text = f"{language} {round(percentage, 1)}%"
+        label_x = x
+       
+        #dwg.add(dwg.circle(center=(label_x, label_y), r=2, fill=colors[language]))
         dwg.add(dwg.rect(insert=(x, y), size=(language_width, bar_height), fill=colors[language], rx=border_radius))
+        dwg.add(dwg.text(text, insert=(label_x + 3,  17), font_size="13",font_family="Arial",fill="#000000"))
+        
+        # Add a language bar with rounded border
 
 
-        label_y += 20
+        label_y += 0
         x += language_width
 
     dwg.save()
     
 languages_percentage = {
     "JavaScript": res["JavaScript"],
-    "Python": res["Python"],
     "TypeScript": res["TypeScript"],
+    "Python": res["Python"],
     "HTML": res["HTML"],
     "CSS": res["CSS"]
 }
+sorted_languages_percentage = dict(sorted(languages_percentage.items(), key=lambda item: item[1], reverse=True))
 
-generate_svg(languages_percentage)
+print(sorted_languages_percentage)
+generate_svg(sorted_languages_percentage)
